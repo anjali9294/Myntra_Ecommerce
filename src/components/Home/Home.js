@@ -1,44 +1,52 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { CgMouse } from "react-icons/cg";
 import "./Home.css";
-import Product from "./Product.js";
+import ProductCard from "./ProductCard.js";
 import Metadata from "../layout/Metadata.js";
-
-const product = {
-  name: "blue tshirt",
-  images: [
-    {
-      url: "https://tse1.mm.bing.net/th?id=OIP.pe-Sjx5Bu-_z62RULHFKgwHaJ4&pid=Api&P=0",
-    },
-  ],
-  price: "$30",
-  _id: "anjali",
-};
+import { getProduct } from "../../actions/productAction";
+import { useSelector, useDispatch } from "react-redux";
+import Loader from "../layout/Loader/Loader";
+import { useAlert } from "react-alert";
 
 const Home = () => {
+  const alert = useAlert();
+  const dispatch = useDispatch();
+
+  const { loading, error, products, productsCount } = useSelector(
+    (state) => state.products
+  );
+
+  useEffect(() => {
+    if (error) {
+      return alert.error(error);
+    }
+    dispatch(getProduct());
+  }, [dispatch, error, alert]);
   return (
     <>
-      <Metadata title="MYNTRA" />
-      <div className="banner d-flex align-items-center justify-content-center flex-column text-center text-white">
-        <p className="m-5">Welcome To Myntra</p>
-        <h1>FIND AMAZING PRODUCTS BELOW</h1>
-        <a href="#container">
-          <button>
-            Scroll <CgMouse />
-          </button>
-        </a>
-      </div>
-      <h2 className="homeHeading">Featured Products</h2>
-      <div className="container" id="container">
-        <Product product={product} />
-        <Product product={product} />
-        <Product product={product} />
-        <Product product={product} />
-        <Product product={product} />
-        <Product product={product} />
-        <Product product={product} />
-        <Product product={product} />
-      </div>
+      {loading ? (
+        <Loader />
+      ) : (
+        <>
+          <Metadata title="MYNTRA" />
+          <div className="banner d-flex align-items-center justify-content-center flex-column text-center text-white">
+            <p className="m-5">Welcome To Myntra</p>
+            <h1>FIND AMAZING PRODUCTS BELOW</h1>
+            <a href="#container">
+              <button>
+                Scroll <CgMouse />
+              </button>
+            </a>
+          </div>
+          <h2 className="homeHeading">Featured Products</h2>
+          <div className="container" id="container">
+            {products &&
+              products.map((product, index) => (
+                <ProductCard key={index} product={product} />
+              ))}
+          </div>
+        </>
+      )}
     </>
   );
 };
