@@ -8,6 +8,7 @@ import { useAlert } from "react-alert";
 import Loader from "../layout/Loader/Loader";
 import ReactStars from "react-rating-stars-component";
 import ReviewCard from "./ReviewCard.js";
+import Metadata from "../layout/Metadata";
 
 const ProductDetails = ({ match }) => {
   const alert = useAlert();
@@ -40,6 +41,7 @@ const ProductDetails = ({ match }) => {
         <Loader />
       ) : (
         <>
+          <Metadata title={`${product.name} -- Myntra`} />
           <div className="productDetails">
             <div>
               <Carousel showThumbs={false} infiniteLoop={true}>
