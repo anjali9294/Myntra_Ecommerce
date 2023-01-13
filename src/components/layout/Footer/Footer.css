@@ -5,10 +5,12 @@ footer {
   display: flex;
   align-items: center;
   font-family: "Roboto";
-  position: relative;
-  bottom: 0;
+  position: absolute;
+
+  bottom: 0px;
   width: 100vw;
   display: flex;
   justify-content: center;
+
   /* top: 0; */
 }
