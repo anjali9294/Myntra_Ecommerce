@@ -1,7 +1,6 @@
 import React from "react";
 
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import Loader from "../layout/Loader/Loader";
 import { useDispatch, useSelector } from "react-redux";
 import { clearErrors, loadUser, updateProfile } from "../../actions/userAction";
@@ -22,7 +21,7 @@ const UpdateProfile = ({ history }) => {
   const [avatar, setAvatar] = useState();
   const [avatarPreview, setAvatarPreview] = useState("/Profile.png");
 
-  const UpdateProfileSubmit = (e) => {
+  const updateProfileSubmit = (e) => {
     e.preventDefault();
     const myForm = new FormData();
     myForm.set("name", name);
@@ -31,7 +30,7 @@ const UpdateProfile = ({ history }) => {
     dispatch(updateProfile(myForm));
   };
 
-  const UpdateProfileDataChange = (e) => {
+  const updateProfileDataChange = (e) => {
     const reader = new FileReader();
 
     reader.onload = () => {
@@ -84,7 +83,7 @@ const UpdateProfile = ({ history }) => {
                               <form
                                 className="signUpForm"
                                 encType="multipart/form-data"
-                                onSubmit={UpdateProfileSubmit}
+                                onSubmit={updateProfileSubmit}
                               >
                                 <div className="section text-center">
                                   <h4 className="mb-4 pb-3">Update Profile</h4>
@@ -126,7 +125,7 @@ const UpdateProfile = ({ history }) => {
                                       type="file"
                                       name="avatar"
                                       accept="image/*"
-                                      onChange={UpdateProfileDataChange}
+                                      onChange={updateProfileDataChange}
                                     />
                                   </div>
                                   <input
