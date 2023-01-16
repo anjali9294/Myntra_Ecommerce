@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import "./Header.css";
 import { SpeedDial, SpeedDialAction } from "@material-ui/lab";
-// import Backdrop from "@material-ui/core/Backdrop";
+import Backdrop from "@material-ui/core/Backdrop";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import PersonIcon from "@material-ui/icons/Person";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
@@ -23,7 +23,7 @@ const UserOptions = ({ user }) => {
     { icon: <PersonIcon />, name: "Prodile", func: account },
     { icon: <ExitToAppIcon />, name: "Logout", func: logoutUser },
   ];
-  console.log(user);
+
   if (user.role === "admin") {
     options.unshift({
       icon: <DashboardIcon />,
@@ -48,6 +48,7 @@ const UserOptions = ({ user }) => {
 
   return (
     <>
+      <Backdrop open={open} style={{ zIndex: "10" }} />
       <SpeedDial
         ariaLabel="SpeedDial tooltip example"
         onClose={() => setOpen(false)}
@@ -64,9 +65,9 @@ const UserOptions = ({ user }) => {
           />
         }
       >
-        {options.map((item, i) => (
+        {options.map((item) => (
           <SpeedDialAction
-            key={i}
+            key={item.name}
             icon={item.icon}
             tooltipTitle={item.name}
             onClick={item.func}

@@ -11,9 +11,11 @@ import {
   LOAD_USER_FAIL,
   LOGOUT_SUCCESS,
   LOGOUT_FAIL,
+  UPDATE_PROFILE_SUCCESS,
+  UPDATE_PROFILE_REQUEST,
+  UPDATE_PROFILE_FAIL,
 } from "../constants/userConstants";
 import axios from "axios";
-import Cookies from "js-cookie";
 
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -39,7 +41,6 @@ export const login = (email, password) => async (dispatch) => {
 
     dispatch({ type: LOGIN_SUCCESS, payload: data });
   } catch (error) {
-    // ertyui
     dispatch({ type: LOGIN_FAIL, payload: error.response.data.message });
   }
 };
@@ -60,18 +61,13 @@ export const register = (userData) => async (dispatch) => {
       }
     );
 
-    dispatch({ type: REGISTER_USER_SUCCESS, payload: data.user });
+    dispatch({ type: REGISTER_USER_SUCCESS, payload: data });
   } catch (error) {
     dispatch({
       type: REGISTER_USER_FAIL,
       payload: error.response.data.message,
     });
   }
-};
-
-// clearing errors
-export const clearErrors = () => async (dispatch) => {
-  dispatch({ type: CLEAR_ERROR });
 };
 
 // Load User
@@ -84,7 +80,6 @@ export const loadUser = () => async (dispatch) => {
     });
 
     dispatch({ type: LOAD_USER_SUCCESS, payload: data });
-    console.log(data);
   } catch (error) {
     dispatch({ type: LOAD_USER_FAIL, payload: error.response.data.message });
   }
@@ -96,12 +91,39 @@ export const logout = () => async (dispatch) => {
     await axios.get(`http://localhost:4000/api/logout`, {
       withCredentials: true,
     });
-    document.cookie =
-      "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
-    Cookies.remove("token");
+
     dispatch({ type: LOGOUT_SUCCESS });
   } catch (error) {
     console.log("logout error");
     dispatch({ type: LOGOUT_FAIL, payload: error.response.data.message });
   }
+};
+
+export const updateProfile = (userData) => async (dispatch) => {
+  try {
+    dispatch({ type: UPDATE_PROFILE_REQUEST });
+
+    const { data } = await axios.put(
+      `http://localhost:4000/api/me/update`,
+      userData,
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
+
+    dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: data.success });
+  } catch (error) {
+    dispatch({
+      type: UPDATE_PROFILE_FAIL,
+      payload: error.response.data.message,
+    });
+  }
+};
+
+// clearing errors
+export const clearErrors = () => async (dispatch) => {
+  dispatch({ type: CLEAR_ERROR });
 };
