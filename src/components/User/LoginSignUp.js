@@ -2,9 +2,6 @@ import React from "react";
 import { useRef, useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Loader from "../layout/Loader/Loader";
-// import MailOutlineIcon from "@material-ui/icons/MailOutline";
-// import LockOpenIcon from "@material-ui/icons/LockOpen";
-// import FaceIcon from "@material-ui/icons/Face";
 import { useDispatch, useSelector } from "react-redux";
 import { clearErrors, login, register } from "../../actions/userAction";
 import "./LoginSignUp.css";
@@ -72,7 +69,15 @@ const LoginSignUp = ({ history }) => {
     if (isAuthenticated) {
       history.push("/account");
     }
-  }, [dispatch, error, alert, isAuthenticated, history]);
+  }, [
+    dispatch,
+    error,
+    alert,
+    isAuthenticated,
+    history,
+    loginEmail,
+    loginPassword,
+  ]);
 
   return (
     <>

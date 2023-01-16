@@ -9,10 +9,11 @@ import {
   LOAD_USER_REQUEST,
   LOAD_USER_SUCCESS,
   LOAD_USER_FAIL,
+  LOGOUT_SUCCESS,
+  LOGOUT_FAIL,
 } from "../constants/userConstants";
 import axios from "axios";
-import Cookies from "universal-cookie";
-const cookies = new Cookies();
+import Cookies from "js-cookie";
 
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -20,22 +21,25 @@ export const login = (email, password) => async (dispatch) => {
 
     const config = {
       headers: {
-        "Content-type": "application/json",
+        "Content-Type": "multipart/form-data",
       },
     };
+    console.log("error");
     const { data } = await axios.post(
       `http://localhost:4000/api/login`,
       {
         email,
         password,
       },
-      config
+      {
+        withCredentials: true,
+        config,
+      }
     );
-    cookies.set("token", data.token);
-    localStorage.setItem("token", data.token);
 
-    dispatch({ type: LOGIN_SUCCESS, payload: data.user });
+    dispatch({ type: LOGIN_SUCCESS, payload: data });
   } catch (error) {
+    // ertyui
     dispatch({ type: LOGIN_FAIL, payload: error.response.data.message });
   }
 };
@@ -45,14 +49,17 @@ export const register = (userData) => async (dispatch) => {
   try {
     dispatch({ type: REGISTER_USER_REQUEST });
 
-    const config = { headers: { "Content-Type": "multipart/form-data" } };
-
     const { data } = await axios.post(
       `http://localhost:4000/api/register`,
       userData,
-      config
+      {
+        withCredentials: true,
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
     );
-    console.log(data);
+
     dispatch({ type: REGISTER_USER_SUCCESS, payload: data.user });
   } catch (error) {
     dispatch({
@@ -72,10 +79,29 @@ export const loadUser = () => async (dispatch) => {
   try {
     dispatch({ type: LOAD_USER_REQUEST });
 
-    const { data } = await axios.get(`http://localhost:4000/api/me`);
+    const { data } = await axios.get(`http://localhost:4000/api/me`, {
+      withCredentials: true,
+    });
 
-    dispatch({ type: LOAD_USER_SUCCESS, payload: data.user });
+    dispatch({ type: LOAD_USER_SUCCESS, payload: data });
+    console.log(data);
   } catch (error) {
     dispatch({ type: LOAD_USER_FAIL, payload: error.response.data.message });
+  }
+};
+
+// Logout User
+export const logout = () => async (dispatch) => {
+  try {
+    await axios.get(`http://localhost:4000/api/logout`, {
+      withCredentials: true,
+    });
+    document.cookie =
+      "username=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    Cookies.remove("token");
+    dispatch({ type: LOGOUT_SUCCESS });
+  } catch (error) {
+    console.log("logout error");
+    dispatch({ type: LOGOUT_FAIL, payload: error.response.data.message });
   }
 };

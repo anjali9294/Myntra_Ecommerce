@@ -22,7 +22,7 @@ function App() {
         families: ["Roboto", "Droid Sans", "Chilanka"],
       },
     });
-    console.log(user);
+
     store.dispatch(loadUser());
   }, []);
   return (
@@ -37,7 +37,7 @@ function App() {
         <Route exact path="/Search" component={Search} />
         <Route exact path="/login" component={LoginSignUp} />
 
-        <Footer />
+        {/* <Footer /> */}
       </Router>
     </>
   );

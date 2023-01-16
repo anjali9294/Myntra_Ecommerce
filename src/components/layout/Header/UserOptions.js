@@ -1,18 +1,21 @@
 import React, { useState } from "react";
 import "./Header.css";
 import { SpeedDial, SpeedDialAction } from "@material-ui/lab";
-import Backdrop from "@material-ui/core/Backdrop";
+// import Backdrop from "@material-ui/core/Backdrop";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 import PersonIcon from "@material-ui/icons/Person";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import ListAltIcon from "@material-ui/icons/ListAlt";
-import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
+// import ShoppingCartIcon from "@material-ui/icons/ShoppingCart";
 import { useHistory } from "react-router-dom";
 import { useAlert } from "react-alert";
+import { logout } from "../../../actions/userAction";
+import { useDispatch } from "react-redux";
 
 const UserOptions = ({ user }) => {
   const [open, setOpen] = useState(false);
   const history = useHistory();
+  const dispatch = useDispatch();
   const alert = useAlert();
 
   const options = [
@@ -20,7 +23,7 @@ const UserOptions = ({ user }) => {
     { icon: <PersonIcon />, name: "Prodile", func: account },
     { icon: <ExitToAppIcon />, name: "Logout", func: logoutUser },
   ];
-
+  console.log(user);
   if (user.role === "admin") {
     options.unshift({
       icon: <DashboardIcon />,
@@ -39,7 +42,7 @@ const UserOptions = ({ user }) => {
     history.push("/account");
   }
   function logoutUser() {
-    // dispatch(logout());
+    dispatch(logout());
     alert.success("Logout Successfully");
   }
 
@@ -61,8 +64,9 @@ const UserOptions = ({ user }) => {
           />
         }
       >
-        {options.map((item) => (
+        {options.map((item, i) => (
           <SpeedDialAction
+            key={i}
             icon={item.icon}
             tooltipTitle={item.name}
             onClick={item.func}
