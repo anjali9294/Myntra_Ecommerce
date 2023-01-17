@@ -78,7 +78,7 @@ const Header = () => {
             </div>
 
             <div className="bag text-center ">
-              <Link to="/Bag" className="nav-link text-muted">
+              <Link to="/cart" className="nav-link text-muted">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"

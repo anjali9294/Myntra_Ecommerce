@@ -3,12 +3,13 @@ import Carousel from "react-material-ui-carousel";
 import "./ProductDetails.css";
 import { useSelector, useDispatch } from "react-redux";
 import { getProductDetails, clearErrors } from "../../actions/productAction";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAlert } from "react-alert";
 import Loader from "../layout/Loader/Loader";
 import ReactStars from "react-rating-stars-component";
 import ReviewCard from "./ReviewCard.js";
 import Metadata from "../layout/Metadata";
+import { addItemsToCart } from "../../actions/cartAction";
 
 const ProductDetails = ({ match }) => {
   const alert = useAlert();
@@ -28,6 +29,24 @@ const ProductDetails = ({ match }) => {
     readOnlu: true,
   };
 
+  const [quantity, setQuantity] = useState(1);
+
+  const increaseQuantity = () => {
+    if (product.stock <= quantity) return;
+    const qty = quantity + 1;
+    setQuantity(qty);
+  };
+
+  const decreaseQuantity = () => {
+    if (1 >= quantity) return;
+    const qty = quantity - 1;
+    setQuantity(qty);
+  };
+
+  const addToCartHandler = () => {
+    dispatch(addItemsToCart(match.params.id, quantity));
+    alert.success("Item added to cart ");
+  };
   useEffect(() => {
     if (error) {
       alert.error(error);
@@ -44,7 +63,7 @@ const ProductDetails = ({ match }) => {
           <Metadata title={`${product.name} -- Myntra`} />
           <div className="productDetails">
             <div>
-              <Carousel showThumbs={false} infiniteLoop={true}>
+              <Carousel>
                 {product.images &&
                   product.images.map((item, i) => (
                     <img
@@ -69,11 +88,11 @@ const ProductDetails = ({ match }) => {
                 <h1>{`₹${product.price}`}</h1>
                 <div className="detailsBlock-3-1">
                   <div className="detailsBlock-3-1-1">
-                    <button>-</button>
-                    <input defaultValue={product.stock} type="number" />
-                    <button>+</button>
+                    <button onClick={decreaseQuantity}>-</button>
+                    <input readOnly type="number" value={quantity} />
+                    <button onClick={increaseQuantity}>+</button>
                   </div>
-                  <button>Add to Cart</button>
+                  <button onClick={addToCartHandler}>Add to Cart</button>
                 </div>
                 <p>
                   Status:
