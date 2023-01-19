@@ -6,7 +6,7 @@ import { addItemsToCart, removeItemsFromCart } from "../../actions/cartAction";
 import "./Cart.css";
 import CartItemCard from "./CartItemCard.js";
 
-const Cart = () => {
+const Cart = ({ history }) => {
   const dispatch = useDispatch();
   const { cartItems } = useSelector((state) => state.cart);
 
@@ -23,6 +23,9 @@ const Cart = () => {
   };
   const deleteCartItems = (id) => dispatch(removeItemsFromCart(id));
 
+  const checkOutHandler = () => {
+    history.push("/login?redirect=shipping");
+  };
   return (
     <>
       {cartItems.length === 0 ? (
@@ -84,7 +87,7 @@ const Cart = () => {
               </div>
               <div></div>
               <div className="checkOutBtn">
-                <button>Check Out</button>
+                <button onClick={checkOutHandler}>Check Out</button>
               </div>
             </div>
           </div>

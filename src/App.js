@@ -3,7 +3,7 @@ import Header from "./components/layout/Header/Header.js";
 import webFont from "webfontloader";
 import "./App.css";
 import { BrowserRouter as Router, Route } from "react-router-dom";
-import React from "react";
+import React, { useState } from "react";
 import Home from "./components/Home/Home.js";
 import ProductDetails from "./components/Product/ProductDetails.js";
 import Products from "./components/Product/Products.js";
@@ -20,8 +20,26 @@ import UpdatePassword from "./components/User/UpdatePassword.js";
 import ForgotPassword from "./components/User/ForgotPassword.js";
 import ResetPassword from "./components/User/ResetPassword.js";
 import Cart from "./components/Cart/Cart.js";
+import Shipping from "./components/Cart/Shipping.js";
+import ConfirmOrder from "./components/Cart/ConfirmOrder.js";
+import Payment from "./components/Cart/Payment.js";
+import axios from "axios";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.user);
+
+  const [stripeApiKey, setStripeApiKey] = useState("");
+
+  async function getStripeApiKey() {
+    const { data } = await axios.get("http://localhost:4000/api/stripeapikey", {
+      withCredentials: true,
+    });
+
+    setStripeApiKey(data.stripeApiKey);
+  }
+  console.log(stripeApiKey);
+
   React.useEffect(() => {
     webFont.load({
       google: {
@@ -30,6 +48,7 @@ function App() {
     });
 
     store.dispatch(loadUser());
+    getStripeApiKey();
   }, []);
   return (
     <>
@@ -52,7 +71,13 @@ function App() {
         <Route exact path="/password/forgot" component={ForgotPassword} />
         <Route exact path="/password/reset/:token" component={ResetPassword} />
         <Route exact path="/cart" component={Cart} />
-
+        <ProtectedRoute exact path="/shipping" component={Shipping} />
+        <ProtectedRoute exact path="/order/confirm" component={ConfirmOrder} />
+        {stripeApiKey && (
+          <Elements stripe={loadStripe(stripeApiKey)}>
+            <ProtectedRoute exact path="/process/payment" component={Payment} />
+          </Elements>
+        )}
         <Footer />
       </Router>
     </>

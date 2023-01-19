@@ -7,7 +7,7 @@ import { clearErrors, login, register } from "../../actions/userAction";
 import "./LoginSignUp.css";
 import { useAlert } from "react-alert";
 
-const LoginSignUp = ({ history }) => {
+const LoginSignUp = ({ history, location }) => {
   const dispatch = useDispatch();
   const alert = useAlert();
 
@@ -61,13 +61,14 @@ const LoginSignUp = ({ history }) => {
       setUser({ ...user, [e.target.name]: e.target.value });
     }
   };
+  const redirect = location.search ? location.search.split("=")[1] : "/account";
   useEffect(() => {
     if (error) {
       alert.error(error);
       dispatch(clearErrors());
     }
     if (isAuthenticated) {
-      history.push("/account");
+      history.push(redirect);
     }
   }, [
     dispatch,
@@ -77,6 +78,7 @@ const LoginSignUp = ({ history }) => {
     history,
     loginEmail,
     loginPassword,
+    redirect,
   ]);
 
   return (

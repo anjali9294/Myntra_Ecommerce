@@ -5,7 +5,7 @@ footer {
   display: flex;
   align-items: center;
   font-family: "Roboto";
-  position: absolute;
+  position: relative;
 
   bottom: 0px;
   width: 100vw;
