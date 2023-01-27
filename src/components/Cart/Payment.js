@@ -21,7 +21,7 @@ import { clearErrors, createOrder } from "../../actions/orderAction";
 
 const Payment = ({ history }) => {
   const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
-  console.log(orderInfo);
+
   const dispatch = useDispatch();
   const alert = useAlert();
   const stripe = useStripe();
