@@ -1,5 +1,5 @@
 import React from "react";
-import Metadata from "../layout/Metadata";
+// import Metadata from "../layout/Metadata";
 import "./SideBar.css";
 import logo from "../../images/logo.png";
 import { Link } from "react-router-dom";

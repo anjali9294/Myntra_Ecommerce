@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Sidebar from "./Sidebar.js";
 import "./Dashboard.css";
 import Metadata from "../layout/Metadata.js";
@@ -15,9 +15,9 @@ const Dashboard = () => {
 
   const { products } = useSelector((state) => state.products);
 
-  //   const { orders } = useSelector((state) => state.allOrders);
+  const { orders } = useSelector((state) => state.allOrders);
 
-  //   const { users } = useSelector((state) => state.allUsers);
+  const { users } = useSelector((state) => state.allUsers);
 
   let outOfStock = 0;
 
@@ -30,8 +30,8 @@ const Dashboard = () => {
 
   useEffect(() => {
     dispatch(getAdminProduct());
-    // dispatch(getAllOrders());
-    // dispatch(getAllUsers());
+    dispatch(getAllOrders());
+    dispatch(getAllUsers());
   }, [dispatch]);
 
   // let totalAmount = 0;
@@ -84,11 +84,11 @@ const Dashboard = () => {
               </Link>
               <Link to="/admin/orders">
                 <p>Orders</p>
-                <p>1</p>
+                <p>{orders && orders.length}</p>
               </Link>
               <Link to="/admin/users">
                 <p>Users</p>
-                <p>1</p>
+                <p>{users && users.length}</p>
               </Link>
             </div>
           </div>

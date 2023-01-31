@@ -1,14 +1,23 @@
 import {
+  ALL_ORDERS_FAIL,
+  ALL_ORDERS_REQUEST,
+  ALL_ORDERS_SUCCESS,
   CLEAR_ERRORS,
   CREATE_ORDER_FAIL,
   CREATE_ORDER_REQUEST,
   CREATE_ORDER_SUCCESS,
+  DELETE_ORDER_FAIL,
+  DELETE_ORDER_REQUEST,
+  DELETE_ORDER_SUCCESS,
   MY_ORDERS_FAIL,
   MY_ORDERS_REQUEST,
   MY_ORDERS_SUCCESS,
   ORDER_DETAILS_FAIL,
   ORDER_DETAILS_REQUEST,
   ORDER_DETAILS_SUCCESS,
+  UPDATE_ORDER_FAIL,
+  UPDATE_ORDER_REQUEST,
+  UPDATE_ORDER_SUCCESS,
 } from "../constants/orderConstants";
 import axios from "axios";
 
@@ -73,6 +82,64 @@ export const getOrderDetails = (id) => async (dispatch) => {
   }
 };
 
+// get all orders (admin)
+export const getAllOrders = () => async (dispatch) => {
+  try {
+    dispatch({ type: ALL_ORDERS_REQUEST });
+    const config = {
+      withCredentials: true,
+    };
+
+    const { data } = await axios.get(
+      "http://localhost:4000/api/admin/orders",
+      config
+    );
+    dispatch({ type: ALL_ORDERS_SUCCESS, payload: data.orders });
+  } catch (error) {
+    dispatch({ type: ALL_ORDERS_FAIL, payload: error.response.data.message });
+  }
+};
+
+// update order
+export const updateOrder = (id, order) => async (dispatch) => {
+  try {
+    dispatch({ type: UPDATE_ORDER_REQUEST });
+    const config = {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const { data } = await axios.put(
+      `http://localhost:4000/api/admin/order/${id}`,
+      order,
+      config
+    );
+    dispatch({ type: UPDATE_ORDER_SUCCESS, payload: data.success });
+  } catch (error) {
+    dispatch({ type: UPDATE_ORDER_FAIL, payload: error.response.data.message });
+  }
+};
+
+// delete order
+export const deleteOrder = (id) => async (dispatch) => {
+  try {
+    dispatch({ type: DELETE_ORDER_REQUEST });
+    const config = {
+      withCredentials: true,
+    };
+
+    const { data } = await axios.delete(
+      `http://localhost:4000/api/admin/order/${id}`,
+
+      config
+    );
+    dispatch({ type: DELETE_ORDER_SUCCESS, payload: data.success });
+  } catch (error) {
+    dispatch({ type: DELETE_ORDER_FAIL, payload: error.response.data.message });
+  }
+};
 // clearing errors
 export const clearErrors = () => async (dispatch) => {
   dispatch({ type: CLEAR_ERRORS });

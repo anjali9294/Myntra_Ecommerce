@@ -33,6 +33,13 @@ import Dashboard from "./components/Admin/Dashboard.js";
 import ProductList from "./components/Admin/ProductList.js";
 import NewProduct from "./components/Admin/NewProduct.js";
 import UpdateProduct from "./components/Admin/UpdateProduct.js";
+import OrderList from "./components/Admin/OrderList.js";
+import ProcessOrder from "./components/Admin/ProcessOrder.js";
+import UsersList from "./components/Admin/UsersList.js";
+import UpdateUser from "./components/Admin/UpdateUser.js";
+import ProductReviews from "./components/Admin/ProductReviews.js";
+import Contact from "./components/layout/Contact/Contact.js";
+import About from "./components/layout/About/About.js";
 function App() {
   const { isAuthenticated, user } = useSelector((state) => state.user);
 
@@ -45,7 +52,6 @@ function App() {
 
     setStripeApiKey(data.stripeApiKey);
   }
-  console.log(stripeApiKey);
 
   React.useEffect(() => {
     webFont.load({
@@ -67,6 +73,9 @@ function App() {
         <Route exact path="/products" component={Products} />
         <Route path="/products/:keyword" component={Products} />
         <Route exact path="/Search" component={Search} />
+        <Route exact path="/contact" component={Contact} />
+
+        <Route exact path="/about" component={About} />
         <Route exact path="/login" component={LoginSignUp} />
         <ProtectedRoute exact path="/account" component={Profile} />
         <ProtectedRoute exact path="/me/update" component={UpdateProfile} />
@@ -116,6 +125,38 @@ function App() {
             isAdmin={true}
             path="/admin/product/:id"
             component={UpdateProduct}
+          />
+          <ProtectedRoute
+            exact
+            isAdmin={true}
+            path="/admin/orders"
+            component={OrderList}
+          />
+          <ProtectedRoute
+            exact
+            isAdmin={true}
+            path="/admin/order/:id"
+            component={ProcessOrder}
+          />
+          <ProtectedRoute
+            exact
+            isAdmin={true}
+            path="/admin/users"
+            component={UsersList}
+          />
+
+          <ProtectedRoute
+            exact
+            isAdmin={true}
+            path="/admin/user/:id"
+            component={UpdateUser}
+          />
+
+          <ProtectedRoute
+            exact
+            isAdmin={true}
+            path="/admin/reviews"
+            component={ProductReviews}
           />
         </Switch>
         <Footer />

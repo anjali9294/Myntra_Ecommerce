@@ -80,8 +80,6 @@ const NewProduct = ({ history }) => {
         if (reader.readyState === 2) {
           setImagesPreview((old) => [...old, reader.result]);
           setImages((old) => [...old, reader.result]);
-        } else {
-          console.log("error");
         }
       };
       if (file) {

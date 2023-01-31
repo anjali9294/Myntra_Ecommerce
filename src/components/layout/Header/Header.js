@@ -33,7 +33,7 @@ const Header = () => {
             </li>
             <li className="nav-item">
               <p className="nav-link me-3 pt-3">
-                <Link to="/contacts" className="nav-link">
+                <Link to="/contact" className="nav-link">
                   CONTACT
                 </Link>
               </p>

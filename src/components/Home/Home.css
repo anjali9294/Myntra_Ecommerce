@@ -1,5 +1,9 @@
 .banner {
-  background-image: linear-gradient(to right, #635dc0, #3027ae);
+  /* background-image: linear-gradient(to right, #635dc0, #3027ae); */
+  background-image: url("../../images/cover.jfif");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   height: 100vmin;
   margin: 0;
 }
@@ -24,7 +28,7 @@
 .banner ::after {
   content: "";
   width: 100vw;
-  height: 112vmin;
+  height: 113vmin;
   background-color: #ffffff;
   position: absolute;
   top: 0%;
