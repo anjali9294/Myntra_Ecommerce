@@ -9,11 +9,7 @@
 }
 
 .aboutSectionGradient {
-  background-image: linear-gradient(
-    to bottom right,
-    rgb(78, 81, 255),
-    rgb(74, 137, 189)
-  );
+  background-image: linear-gradient(to bottom right, tomato, tomato);
 }
 
 .aboutSectionContainer {

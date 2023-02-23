@@ -98,7 +98,7 @@ const ProductDetails = ({ match }) => {
         <Loader />
       ) : (
         <>
-          <Metadata title={`${product.name} -- Myntra`} />
+          <Metadata title={`${product.name} -- SHOPNOW`} />
           <div className="productDetails">
             <div>
               <Carousel>

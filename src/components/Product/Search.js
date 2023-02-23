@@ -16,7 +16,7 @@ const Search = ({ history }) => {
   };
   return (
     <>
-      <Metadata title={"Search a product -- Myntra"} />
+      <Metadata title={"Search a product -- SHOPNOW"} />
       <form className="searchBox" onSubmit={searchSubmitHandler}>
         <input
           type="text"

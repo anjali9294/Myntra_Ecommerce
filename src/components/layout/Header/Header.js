@@ -3,7 +3,7 @@ const Header = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light shadow-sm  bg-body rounded px-5">
       <div className="container-fluid">
-        <h4 ame="navbar-brand ps-5">MYNTRA</h4>
+        <h4 ame="navbar-brand ps-5">SHOPNOW</h4>
         <button
           className="navbar-toggler"
           type="button"

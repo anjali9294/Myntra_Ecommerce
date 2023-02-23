@@ -26,9 +26,9 @@ const Home = () => {
         <Loader />
       ) : (
         <>
-          <Metadata title="MYNTRA" />
+          <Metadata title="SHOPNOW" />
           <div className="banner d-flex align-items-center justify-content-center flex-column text-center text-white">
-            <p className="m-5">Welcome To Myntra</p>
+            <p className="m-5">Welcome To SHOPNOW</p>
             <h1>FIND AMAZING PRODUCTS BELOW</h1>
             <a href="#container">
               <button>

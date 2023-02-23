@@ -20,6 +20,8 @@ const categories = [
   "Attire",
   "Camera",
   "SmartPhones",
+  "Fragrances",
+  "Skincare",
 ];
 const Products = ({ match }) => {
   const dispatch = useDispatch();
@@ -61,7 +63,7 @@ const Products = ({ match }) => {
         <Loader />
       ) : (
         <>
-          <Metadata title="PRODUCTS -- Myntra" />
+          <Metadata title="PRODUCTS -- SHOPNOW" />
           <h2 className="productsHeading">Products</h2>
 
           <div className="products">

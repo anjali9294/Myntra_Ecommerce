@@ -59,7 +59,7 @@ const Payment = ({ history }) => {
         },
       };
       const { data } = await axios.post(
-        "http://localhost:4000/api/payment/process",
+        "https://ecommerce-api-g3mf.onrender.com/api/payment/process",
         paymentData,
         config
       );

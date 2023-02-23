@@ -37,7 +37,9 @@ import {
   DELETE_USER_FAIL,
 } from "../constants/userConstants";
 import axios from "axios";
-
+import Cookies from "universal-cookie";
+const cookies = new Cookies();
+var token = "";
 // login
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -50,7 +52,7 @@ export const login = (email, password) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      `http://localhost:4000/api/login`,
+      `https://myntraecommercebackend.up.railway.app/api/login`,
       {
         email,
         password,
@@ -60,6 +62,10 @@ export const login = (email, password) => async (dispatch) => {
         config,
       }
     );
+    localStorage.setItem("token", data.token);
+    console.log(data.token);
+    token = data.token;
+    cookies.set("token", data.token);
 
     dispatch({ type: LOGIN_SUCCESS, payload: data });
   } catch (error) {
@@ -82,6 +88,7 @@ export const register = (userData) => async (dispatch) => {
         },
       }
     );
+    localStorage.setItem("token", data.token);
 
     dispatch({ type: REGISTER_USER_SUCCESS, payload: data });
   } catch (error) {
@@ -96,10 +103,16 @@ export const register = (userData) => async (dispatch) => {
 export const loadUser = () => async (dispatch) => {
   try {
     dispatch({ type: LOAD_USER_REQUEST });
+    cookies.set("token", token);
 
-    const { data } = await axios.get(`http://localhost:4000/api/me`, {
-      withCredentials: true,
-    });
+    const { data } = await axios.get(
+      `https://myntraecommercebackend.up.railway.app/api/me`,
+      {
+        withCredentials: true,
+      }
+    );
+    // token = data.token;
+    cookies.set("token", token);
 
     dispatch({ type: LOAD_USER_SUCCESS, payload: data });
   } catch (error) {
