@@ -50,7 +50,7 @@ function App() {
     const { data } = await axios.get("http://localhost:4000/api/stripeapikey", {
       withCredentials: true,
     });
-
+    console.log(data.stripeApiKey);
     setStripeApiKey(data.stripeApiKey);
   }
 
