@@ -52,7 +52,7 @@ export const login = (email, password) => async (dispatch) => {
     };
 
     const { data } = await axios.post(
-      `https://myntraecommercebackend.up.railway.app/api/login`,
+      `http://localhost:4000/api/login`,
       {
         email,
         password,
@@ -105,12 +105,9 @@ export const loadUser = () => async (dispatch) => {
     dispatch({ type: LOAD_USER_REQUEST });
     cookies.set("token", token);
 
-    const { data } = await axios.get(
-      `https://myntraecommercebackend.up.railway.app/api/me`,
-      {
-        withCredentials: true,
-      }
-    );
+    const { data } = await axios.get(`http://localhost:4000/api/me`, {
+      withCredentials: true,
+    });
     // token = data.token;
     cookies.set("token", token);
 
