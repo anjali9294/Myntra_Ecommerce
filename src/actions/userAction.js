@@ -38,7 +38,6 @@ import {
 } from "../constants/userConstants";
 import { axiosInstance } from "./apipathfile";
 
-// const cookie = Cookies();
 // login
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -61,7 +60,7 @@ export const login = (email, password) => async (dispatch) => {
         config,
       }
     );
-    document.cookie = `token=${data.token}; domain=.onrender.com; path=/`;
+    document.cookie = `token= ${data.token}; domain=.onrender.com; path=/`;
     dispatch({ type: LOGIN_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LOGIN_FAIL, payload: error.response.data.message });
