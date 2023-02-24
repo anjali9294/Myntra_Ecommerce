@@ -11,13 +11,14 @@ import {
   useStripe,
   useElements,
 } from "@stripe/react-stripe-js";
-import axios from "axios";
+
 import "./Payment.css";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
 import EventIcon from "@material-ui/icons/Event";
 
 import VpnKeyIcon from "@material-ui/icons/VpnKey";
 import { clearErrors, createOrder } from "../../actions/orderAction";
+import { axiosInstance } from "../../actions/apipathfile";
 
 const Payment = ({ history }) => {
   const orderInfo = JSON.parse(sessionStorage.getItem("orderInfo"));
@@ -58,8 +59,8 @@ const Payment = ({ history }) => {
           "Content-Type": "application/json",
         },
       };
-      const { data } = await axios.post(
-        "http://localhost:4000/api/payment/process",
+      const { data } = await axiosInstance.post(
+        "/payment/process",
         paymentData,
         config
       );

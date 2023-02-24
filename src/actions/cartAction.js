@@ -1,4 +1,4 @@
-import axios from "axios";
+import { axiosInstance } from "./apipathfile";
 import {
   ADD_TO_CART,
   REMOVE_CART_ITEM,
@@ -7,7 +7,7 @@ import {
 
 // Add to cart
 export const addItemsToCart = (id, quantity) => async (dispatch, getState) => {
-  const { data } = await axios.get(`http://localhost:4000/api/product/${id}`);
+  const { data } = await axiosInstance.get(`/product/${id}`);
 
   dispatch({
     type: ADD_TO_CART,

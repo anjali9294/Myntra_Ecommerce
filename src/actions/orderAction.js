@@ -19,7 +19,7 @@ import {
   UPDATE_ORDER_REQUEST,
   UPDATE_ORDER_SUCCESS,
 } from "../constants/orderConstants";
-import axios from "axios";
+import { axiosInstance } from "./apipathfile";
 
 // create order
 export const createOrder = (order) => async (dispatch) => {
@@ -32,11 +32,7 @@ export const createOrder = (order) => async (dispatch) => {
       },
     };
 
-    const { data } = await axios.post(
-      "http://localhost:4000/api/order/new",
-      order,
-      config
-    );
+    const { data } = await axiosInstance.post("/order/new", order, config);
     dispatch({ type: CREATE_ORDER_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: CREATE_ORDER_FAIL, payload: error.response.data.message });
@@ -51,10 +47,7 @@ export const myOrders = () => async (dispatch) => {
       withCredentials: true,
     };
 
-    const { data } = await axios.get(
-      "http://localhost:4000/api/orders/me",
-      config
-    );
+    const { data } = await axiosInstance.get("/orders/me", config);
     dispatch({ type: MY_ORDERS_SUCCESS, payload: data.orders });
   } catch (error) {
     dispatch({ type: MY_ORDERS_FAIL, payload: error.response.data.message });
@@ -69,10 +62,7 @@ export const getOrderDetails = (id) => async (dispatch) => {
       withCredentials: true,
     };
 
-    const { data } = await axios.get(
-      `http://localhost:4000/api/order/${id}`,
-      config
-    );
+    const { data } = await axiosInstance.get(`/order/${id}`, config);
     dispatch({ type: ORDER_DETAILS_SUCCESS, payload: data.order });
   } catch (error) {
     dispatch({
@@ -90,10 +80,7 @@ export const getAllOrders = () => async (dispatch) => {
       withCredentials: true,
     };
 
-    const { data } = await axios.get(
-      "http://localhost:4000/api/admin/orders",
-      config
-    );
+    const { data } = await axiosInstance.get("/admin/orders", config);
     dispatch({ type: ALL_ORDERS_SUCCESS, payload: data.orders });
   } catch (error) {
     dispatch({ type: ALL_ORDERS_FAIL, payload: error.response.data.message });
@@ -111,8 +98,8 @@ export const updateOrder = (id, order) => async (dispatch) => {
       },
     };
 
-    const { data } = await axios.put(
-      `http://localhost:4000/api/admin/order/${id}`,
+    const { data } = await axiosInstance.put(
+      `/admin/order/${id}`,
       order,
       config
     );
@@ -130,8 +117,8 @@ export const deleteOrder = (id) => async (dispatch) => {
       withCredentials: true,
     };
 
-    const { data } = await axios.delete(
-      `http://localhost:4000/api/admin/order/${id}`,
+    const { data } = await axiosInstance.delete(
+      `/admin/order/${id}`,
 
       config
     );

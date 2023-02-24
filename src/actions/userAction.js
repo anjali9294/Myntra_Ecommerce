@@ -36,10 +36,9 @@ import {
   DELETE_USER_SUCCESS,
   DELETE_USER_FAIL,
 } from "../constants/userConstants";
-import axios from "axios";
-import Cookies from "universal-cookie";
-const cookies = new Cookies();
-var token = "";
+import { axiosInstance } from "./apipathfile";
+
+// const cookie = Cookies();
 // login
 export const login = (email, password) => async (dispatch) => {
   try {
@@ -51,8 +50,8 @@ export const login = (email, password) => async (dispatch) => {
       },
     };
 
-    const { data } = await axios.post(
-      `http://localhost:4000/api/login`,
+    const { data } = await axiosInstance.post(
+      `/login`,
       {
         email,
         password,
@@ -62,11 +61,7 @@ export const login = (email, password) => async (dispatch) => {
         config,
       }
     );
-    localStorage.setItem("token", data.token);
-    console.log(data.token);
-    token = data.token;
-    cookies.set("token", data.token);
-
+    document.cookie = `token=${data.token}; domain=.onrender.com; path=/`;
     dispatch({ type: LOGIN_SUCCESS, payload: data });
   } catch (error) {
     dispatch({ type: LOGIN_FAIL, payload: error.response.data.message });
@@ -78,17 +73,12 @@ export const register = (userData) => async (dispatch) => {
   try {
     dispatch({ type: REGISTER_USER_REQUEST });
 
-    const { data } = await axios.post(
-      `http://localhost:4000/api/register`,
-      userData,
-      {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
-    localStorage.setItem("token", data.token);
+    const { data } = await axiosInstance.post(`/register`, userData, {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
     dispatch({ type: REGISTER_USER_SUCCESS, payload: data });
   } catch (error) {
@@ -103,13 +93,11 @@ export const register = (userData) => async (dispatch) => {
 export const loadUser = () => async (dispatch) => {
   try {
     dispatch({ type: LOAD_USER_REQUEST });
-    cookies.set("token", token);
 
-    const { data } = await axios.get(`http://localhost:4000/api/me`, {
+    const { data } = await axiosInstance.get(`/me`, {
       withCredentials: true,
     });
     // token = data.token;
-    cookies.set("token", token);
 
     dispatch({ type: LOAD_USER_SUCCESS, payload: data });
   } catch (error) {
@@ -120,7 +108,7 @@ export const loadUser = () => async (dispatch) => {
 // Logout User
 export const logout = () => async (dispatch) => {
   try {
-    await axios.get(`http://localhost:4000/api/logout`, {
+    await axiosInstance.get(`/logout`, {
       withCredentials: true,
     });
 
@@ -135,16 +123,12 @@ export const updateProfile = (userData) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_PROFILE_REQUEST });
 
-    const { data } = await axios.put(
-      `http://localhost:4000/api/me/update`,
-      userData,
-      {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      }
-    );
+    const { data } = await axiosInstance.put(`/me/update`, userData, {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
 
     dispatch({ type: UPDATE_PROFILE_SUCCESS, payload: data.success });
   } catch (error) {
@@ -160,16 +144,12 @@ export const updatePassword = (passwords) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_PASSWORD_REQUEST });
 
-    const { data } = await axios.put(
-      `http://localhost:4000/api/password/update`,
-      passwords,
-      {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const { data } = await axiosInstance.put(`/password/update`, passwords, {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     dispatch({ type: UPDATE_PASSWORD_SUCCESS, payload: data.success });
   } catch (error) {
@@ -191,14 +171,10 @@ export const forgotPassword = (email) => async (dispatch) => {
       },
     };
 
-    const { data } = await axios.post(
-      `http://localhost:4000/api/password/forgot`,
-      email,
-      {
-        withCredentials: true,
-        config,
-      }
-    );
+    const { data } = await axiosInstance.post(`/password/forgot`, email, {
+      withCredentials: true,
+      config,
+    });
 
     dispatch({ type: FORGOT_PASSWORD_SUCCESS, payload: data.message });
   } catch (error) {
@@ -220,8 +196,8 @@ export const resetPassword = (token, password) => async (dispatch) => {
       },
     };
 
-    const { data } = await axios.put(
-      `http://localhost:4000/api/password/reset/${token}`,
+    const { data } = await axiosInstance.put(
+      `/password/reset/${token}`,
       password,
       {
         withCredentials: true,
@@ -243,7 +219,7 @@ export const getAllUsers = () => async (dispatch) => {
   try {
     dispatch({ type: ALL_USERS_REQUEST });
 
-    const { data } = await axios.get(`http://localhost:4000/api/admin/users`, {
+    const { data } = await axiosInstance.get(`/admin/users`, {
       withCredentials: true,
     });
 
@@ -258,12 +234,9 @@ export const getUserDetails = (id) => async (dispatch) => {
   try {
     dispatch({ type: USER_DETAILS_REQUEST });
 
-    const { data } = await axios.get(
-      `http://localhost:4000/api/admin/user/${id}`,
-      {
-        withCredentials: true,
-      }
-    );
+    const { data } = await axiosInstance.get(`/admin/user/${id}`, {
+      withCredentials: true,
+    });
 
     dispatch({ type: USER_DETAILS_SUCCESS, payload: data.user });
   } catch (error) {
@@ -276,16 +249,12 @@ export const updateUser = (id, userData) => async (dispatch) => {
   try {
     dispatch({ type: UPDATE_USER_REQUEST });
 
-    const { data } = await axios.put(
-      `http://localhost:4000/api/admin/user/${id}`,
-      userData,
-      {
-        withCredentials: true,
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const { data } = await axiosInstance.put(`/admin/user/${id}`, userData, {
+      withCredentials: true,
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     dispatch({ type: UPDATE_USER_SUCCESS, payload: data.success });
   } catch (error) {
@@ -301,8 +270,8 @@ export const deleteUser = (id, userData) => async (dispatch) => {
   try {
     dispatch({ type: DELETE_USER_REQUEST });
 
-    const { data } = await axios.delete(
-      `http://localhost:4000/api/admin/user/${id}`,
+    const { data } = await axiosInstance.delete(
+      `/admin/user/${id}`,
       {
         withCredentials: true,
       },
