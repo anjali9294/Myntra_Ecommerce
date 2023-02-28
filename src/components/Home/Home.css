@@ -49,7 +49,6 @@
 .container {
   display: flex;
   margin: 2vmax auto;
-  width: 80vmax;
   flex-wrap: wrap;
   justify-content: center;
 }
