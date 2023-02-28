@@ -1,4 +1,4 @@
 import axios from "axios";
 export const axiosInstance = axios.create({
-  baseURL: "https://www.anjishop.me/api",
+  baseURL: "https://shop-now-api.onrender.com/api",
 });
