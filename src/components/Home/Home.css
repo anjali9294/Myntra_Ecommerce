@@ -24,7 +24,7 @@
   background-color: rgba(255, 255, 255, 0);
   color: white;
 }
-
+/* 
 .banner ::after {
   content: "";
   width: 100vw;
@@ -35,7 +35,7 @@
   left: 0;
   clip-path: polygon(100% 68%, 0% 100%, 100% 100%);
   max-width: 100%;
-}
+} */
 .homeHeading {
   text-align: center;
   font-size: 1.4vmax;
@@ -66,6 +66,8 @@
 
 .productCard > img {
   width: 14vmax;
+  aspect-ratio: 3/2;
+  object-fit: contain;
 }
 
 .productCardSpan {
